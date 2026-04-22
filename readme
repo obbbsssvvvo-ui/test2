@@ -2,8 +2,7 @@ graph TD
     subgraph Local_Machine [Local Environment - Offline/Sandboxed]
         direction TB
         P1[Planning: User Story] --> A1[AI: Tech Spec & Plan]
-        A1 --> D1[Design: Schema & Boilerplate]
-        D1 --> I1[Implementation: Feature Branch]
+        A1 --> I1[Implementation: Feature Branch]
         I1 --> I2[AI: Code Gen & Refactor]
         I2 --> T1[Testing: AI Gen Tests & Docker]
         T1 --> S1[Security: Snyk Scan & No Secrets]
@@ -15,5 +14,7 @@ graph TD
         PR --> Merge[Merge to Main]
     end
 
+    %% Styling
     style Local_Machine fill:#f9f9f9,stroke:#333,stroke-dasharray: 5 5
     style Corporate_Network fill:#e1f5fe,stroke:#01579b
+    style Merge fill:#c8e6c9,stroke:#2e7d32
