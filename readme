@@ -1,43 +1,19 @@
 graph TD
-    %% Определение стилей
-    classDef dev fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    classDef ai fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
-    classDef tool fill:#fff3e0,stroke:#e65100,stroke-width:2px;
-    classDef success fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px;
-    classDef fail fill:#ffcdd2,stroke:#c62828,stroke-width:2px;
-
-    subgraph Planning_Analysis ["1-2. Планирование и Анализ"]
-        P1["[Разработчик] Описывает задачу (User Story/Prompt)"] --> A1["[ИИ] Генерирует Tech Spec и план декомпозиции"]
-        A1 --> A2["[Разработчик] Валидирует стек и архитектуру"]
+    subgraph Local_Machine [Local Environment - Offline/Sandboxed]
+        direction TB
+        P1[Planning: User Story] --> A1[AI: Tech Spec & Plan]
+        A1 --> D1[Design: Schema & Boilerplate]
+        D1 --> I1[Implementation: Feature Branch]
+        I1 --> I2[AI: Code Gen & Refactor]
+        I2 --> T1[Testing: AI Gen Tests & Docker]
+        T1 --> S1[Security: Snyk Scan & No Secrets]
     end
 
-    subgraph Design ["3. Проектирование"]
-        D1["[ИИ] Генерирует структуру БД и UML-схемы"] --> D2["[Разработчик] Создает скелет проекта (Boilerplate)"]
+    subgraph Corporate_Network [Corporate Infrastructure]
+        direction TB
+        S1 -- "Git Push" --> PR[Pull Request / Review]
+        PR --> Merge[Merge to Main]
     end
 
-    subgraph Implementation ["4. Реализация (Локально)"]
-        I1["[Git] git checkout -b feature/task-123"] --> I2["[Разработчик] Пишет код + [ИИ] Автодополнение/Рефакторинг"]
-        I2 --> I3["[Инструмент] Lint/Format (Prettier/ESLint)"]
-        I3 --> I4["[Git] git commit -m 'feat: add logic'"]
-    end
-
-    subgraph Testing_Security ["5. Тестирование и Безопасность"]
-        T1["[ИИ] Генерирует Unit-тесты (Jest/Pytest)"] --> T2["[Разработчик] Запуск Docker-контейнера"]
-        T2 --> T3["[Инструмент] Snyk Scan (Поиск уязвимостей)"]
-        T3 -- "Ошибки найдены" --> I2
-        T3 -- "Success (Coverage > 90%)" --> D_Start["6. Deployment (PR)"]
-    end
-
-    subgraph Deployment ["6. Деплой (Корпоративная сеть)"]
-        D_Start --> D3["[Git] git push origin feature/task-123"]
-        D3 --> D4["[GitLab/GitHub] Создание Pull Request (PR)"]
-        D4 --> D5["[ИИ + Команда] Code Review в PR"]
-        D5 -- "Approved" --> D6["[Git] Merge в main/develop"]
-    end
-
-    %% Назначение классов
-    class P1,A2,D2,I2,T2 dev;
-    class A1,D1,T1,D5 ai;
-    class I1,I3,I4,T3,D3,D4,D6 tool;
-    class D6 success;
-    class I2 fail;
+    style Local_Machine fill:#f9f9f9,stroke:#333,stroke-dasharray: 5 5
+    style Corporate_Network fill:#e1f5fe,stroke:#01579b
